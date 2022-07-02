@@ -15,8 +15,8 @@ sms_eth_internal="eth0"
 eth_provision="eth0"
 internal_netmask="255.255.255.0"
 ntp_server="pool.ntp.org"
-bmc_username="bmc"
-bmc_password="nckuhep123"
+bmc_username="ADMIN"
+bmc_password="ADMIN"
 
 #compute node
 num_computes=4
