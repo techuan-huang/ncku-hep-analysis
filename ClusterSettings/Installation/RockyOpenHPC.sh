@@ -15,13 +15,13 @@ sms_eth_internal="eth0"
 eth_provision="eth0"
 internal_netmask="255.255.255.0"
 ntp_server="pool.ntp.org"
-bmc_username="ADMIN"
-bmc_password="ADMIN"
+bmc_username=""
+bmc_password=""
 
 #compute node
 num_computes=4
 c_ip=( "192.168.91.251" "192.168.91.252" "192.168.91.253" "192.168.91.254" )
-c_bmc=( "192.168.91.251" "192.168.91.252" "192.168.91.253" "192.168.91.254" )
+c_bmc=( "" "" "" "" )
 c_mac=( "A4:BF:01:3E:2F:5F" "A4:BF:01:0D:80:0B" "A4:BF:01:13:F7:B2" "A4:BF:01:55:CF:E9")
 c_name=( "compute-0-0" "compute-0-1" "compute-0-2" "compute-0-3" )
 
@@ -37,8 +37,8 @@ compute_prefix="compute-0-"
 echo ${sms_ip} ${sms_name} >> /etc/hosts
 
 #disable SELinux
-vi /etc/selinux/config
-SELINUX=disabled
+#$vi /etc/selinux/config
+#$SELINUX=disabled
 
 #disable firewall
 systemctl disable firewalld
