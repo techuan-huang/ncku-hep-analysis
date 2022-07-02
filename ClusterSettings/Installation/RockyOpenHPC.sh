@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This scripts is just for reference. Not run it directly!!"
+echo "This script is just for reference. Not run it directly!!"
 exit
 
 #######################################
