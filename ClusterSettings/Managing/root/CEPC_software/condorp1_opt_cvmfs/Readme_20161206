@@ -1,0 +1,83 @@
+
+
+20161102, 20161206
+
+copy the /etc/cvmfs ready built containing repositories for ATLAS, CEPC
+
+1. scp admin_suen/condorp1_opt_cvmfs 
+2. examine ./cvmfs.init 
+   # ./cvmf.init
+   to copy condorp1_opt_cvmfs/files  to /etc/cvmfs 
+   and start-up, checking
+
+
+==================================================================================
+1st time installation,  ATLAS only
+------------------------------------
+
+see records 
+http://140.109.240.6/twiki/bin/view/HPC/InstallCVMFS#Install_ATLAS_cvmfs
+
+/opt/cvmfs is for storage, not in service 
+/etc/cvmfs is the service directory
+
+1. copy source from ASGC, -->  also saved on condorp1 /root/admin_suen/cvmfs_asgct1_scripts
+scp source to
+# cd /opt/cvmfs
+# scp condorp1:admin_suen/cvmfs_asgct1_scripts/* .
+/opt/cvmfs/cvmfs
+/opt/cvmfs/test.sh
+# ./test.sh        --> everything installed and brought up on /etc/cvmfs
+
+2. fix selinux,  status enforcing cause cvmfs failure
+http://140.109.240.6/twiki/bin/view/HPC/InstallCVMFS#SElinux_failed_cvmfs
+check /etc/selinux/config if 
+SELINUX=enforcing  (setenforce=1)
+do 
+# setenforce 0
+
+3. fix missing libs by atlas_lib.sh
+
+
+
+=================================================================================
+appending cepc to /etc/cvmfs  ready built for ATLAS
+----------------------------------------------------
+http://140.109.240.6/twiki/bin/view/HPC/InstallCVMFS#Appending_CEPC_cvmfs
+
+checking on the ATLAS cvmfs
+[root@hepui021 cvmfs]# cvmfs_config probe
+Probing /cvmfs/atlas.cern.ch... OK
+Probing /cvmfs/atlas-condb.cern.ch... OK
+
+CEPC cvmfs, instruction from Yan Tian, email 2016.09.05 
+-------------------------------------------------------
+From: "YAN Tian"   Sent Time: Monday, September 5, 2016
+
+Here is the step-by-step instructions on configuration CEPC repository in CVMFS.
+I have tested it on worker node hn002 and it works fine.
+You can repeat it on other nodes. Or write a script to make this job automatically.
+
+Step 1. add the CEPC repository name into the configuration file /etc/cvmfs/default.local
+Open the file /etc/cvmfs/default.local, change the line 21 to:
+CVMFS_REPOSITORIES=atlas.cern.ch,atlas-condb.cern.ch,cepc.ihep.ac.cn
+save and exit.
+
+Step 2. download the key and configuration file of CEPC repository
+run the following two commands:
+# wget -N -P /etc/cvmfs/keys/ http://cvmfs.ihep.ac.cn/pub/cvmfs/cepc.ihep.ac.cn.pub
+# wget -N -P /etc/cvmfs/config.d/ http://cvmfs.ihep.ac.cn/pub/cvmfs/cepc.ihep.ac.cn.conf
+
+Step 3. Check if it's OK. I just copy and paste what I have done.
+[root@hn002 ~]# cvmfs_config chksetup
+OK
+[root@hn002 ~]# cvmfs_config probe
+Probing /cvmfs/atlas.cern.ch... OK
+Probing /cvmfs/atlas-condb.cern.ch... OK
+Probing /cvmfs/cepc.ihep.ac.cn... OK
+[root@hn002 ~]# ls /cvmfs/cepc.ihep.ac.cn/
+cepcsoft  new_repository
+[root@hn002 ~]# ls /cvmfs/cepc.ihep.ac.cn/cepcsoft/x64_SL6/xuyin/ilcsoft/
+bin  include  lib  v01-17-05
+
+

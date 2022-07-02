@@ -1,0 +1,8 @@
+# Make sure $CVMFS_CACHE_BASE has enough space
+CVMFS_QUOTA_LIMIT=6000
+# Increase the size to 8000 or bit more if can effort it
+# The following is very important for CMS!
+export CMS_LOCAL_SITE=/opt/exp_soft/slc5.x86-64/cms/SITECONF/local
+# This only needed if you did not configure Squids in /etc/default.[conf|local]
+#CVMFS_HTTP_PROXY="http://<Squid1-url>:<port>|http://<Squid2-url>:<port>"
+CVMFS_HTTP_PROXY="http://csquid01.grid.sinica.edu.tw:3128|http://squid03.grid.sinica.edu.tw:3128|http://squid04.grid.sinica.edu.tw:3128"

@@ -1,0 +1,10 @@
+ - backup.sh
+A script backing up the cluster configurations, softwares, and users
+
+ - restore.sh
+A script restoring the cluster configurations, softwares, and users
+
+ - network settings
+network: copy of /etc/sysconfig/network
+ifcfg-eth0: copy of /etc/sysconfig/network-scripts/ifcfg-eth0
+ifcfg-eth1: copy of /etc/sysconfig/network-scripts/ifcfg-eth1

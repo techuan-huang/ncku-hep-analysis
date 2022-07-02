@@ -1,0 +1,1 @@
+mount -t nfs -o rw 192.168.91.10:/volume1/data01 /mnt/data01

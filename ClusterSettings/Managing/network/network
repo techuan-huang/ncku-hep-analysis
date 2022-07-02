@@ -1,0 +1,3 @@
+NETWORKING=yes
+HOSTNAME=dirac.ncku.edu.tw
+#GATEWAY=192.168.1.3
