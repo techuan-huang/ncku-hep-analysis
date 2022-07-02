@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "This scripts is just for reference. Not run it directly!!"
+exit
+
 #######################################
 ### Input Variables
 #######################################
