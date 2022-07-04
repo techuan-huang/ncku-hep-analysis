@@ -1,3 +1,3 @@
 #!/bin/bash
 
-pdsh -w compute-0-[0-3] hostname; poweroff
+pdsh -w compute-0-[0-3] "hostname; poweroff"
