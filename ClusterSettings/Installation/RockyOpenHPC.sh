@@ -178,9 +178,6 @@ yum -y install hwloc-ohpc
 yum -y install spack-ohpc
 yum -y install valgrind-ohpc
 
-# compilers
-yum -y install gnu9-compilers-ohpc
-
 # MPI Stacks
 yum -y install openmpi4-gnu9-ohpc mpich-ofi-gnu9-ohpc
 yum -y install mpich-ucx-gnu9-ohpc
