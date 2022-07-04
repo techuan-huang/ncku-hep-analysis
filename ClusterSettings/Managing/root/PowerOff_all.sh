@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rocks run host compute "hostname; poweroff"
+pdsh -w compute-0-[0-3] hostname; poweroff
