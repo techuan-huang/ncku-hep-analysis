@@ -12,13 +12,18 @@ awk -v LIMIT=$UGIDLIMIT -F: '($3>=LIMIT) && ($3!=65534)' /etc/group > ./group.mi
 awk -v LIMIT=$UGIDLIMIT -F: '($3>=LIMIT) && ($3!=65534) {print $1}' /etc/passwd | tee - |egrep -f - /etc/shadow > ./shadow.mig
 cp /etc/gshadow ./gshadow.mig
 
+#backup the settings to auto link home directory when user login as well as the /home/software, and share them to all nodes
+cp /etc/exports ./exports.mig
+cp /etc/auto.home ./auto.home.mig
+
 #backup the home directories and software
 cd /mnt/data01/backup_upgrade/users_backup
 
 rm -rf mail.tar.gz
 tar -zcvpf mail.tar.gz /var/spool/mail
 
-rsync -avh --delete /home/ ./home
+rsync -avh --delete /export/software/ ./software
+rsync -avh --delete /export/home/ ./home
 rsync -avh --delete /root/ ./root
 
 echo "+++++++++++++++++++++++++++"
