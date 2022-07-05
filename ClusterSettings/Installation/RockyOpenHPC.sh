@@ -140,6 +140,9 @@ wwsh file import /etc/shadow
 ### Finalize
 #######################################
 
+#vi /etc/warewulf/vnfs.conf
+#hybridize += /usr/include  #comment out this line
+
 # (Optional) Include drivers from kernel updates; needed if enabling additional kernel modules on computes
 export WW_CONF=/etc/warewulf/bootstrap.conf
 echo "drivers += updates/kernel/" >> $WW_CONF
