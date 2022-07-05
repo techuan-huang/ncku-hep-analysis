@@ -166,6 +166,14 @@ for ((i=0; i<$num_computes; i++)) ; do
     wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} -D ${eth_provision}
 done
 
+### Mount node local disk
+for ((i=0; i<$num_computes; i++)) ; do
+    wwsh object modify -s FILESYSTEMS="mountpoint=/tmp:dev=sda1:type=ext4:size=fill" ${c_name[i]}
+    wwsh object modify -s DISKFORMAT="sda1" ${c_name[i]}
+    wwsh object modify -s DISKPARTITION="sda" ${c_name[i]}
+done
+
+
 # Define provisioning image for hosts
 wwsh -y provision set "${compute_regex}" --vnfs=rocky8.6 --bootstrap=`uname -r` \
 --files=dynamic_hosts,passwd,group,shadow,network
