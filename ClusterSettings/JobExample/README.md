@@ -10,3 +10,12 @@ qsub JobScript.sh
 ```sh
 qstat -taw
 ```
+
+- To delete all your job, run this command:
+```sh
+qselect -u <username> | xargs qdel
+```
+Or you can specify the job id, for example:
+```sh
+qdel 1002[]
+```
