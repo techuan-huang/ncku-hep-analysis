@@ -19,3 +19,8 @@ Or you can specify the job id, for example:
 ```sh
 qdel 1002[]
 ```
+
+- You can get the number of current running jobs by:
+```sh
+qstat -tw | grep -c "R workq"
+```
