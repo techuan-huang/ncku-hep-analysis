@@ -153,6 +153,8 @@ echo "drivers += updates/kernel/" >> $WW_CONF
 # Build bootstrap image
 wwbootstrap `uname -r`
 
+# Add GRUB2 bootloader and re-assemble VNFS image (for nodes to boot from local disk)
+yum -y --installroot=$CHROOT install grub2-efi grub2-efi-modules
 
 #Assemble Virtual Node File System (VNFS) image
 wwvnfs --chroot $CHROOT
@@ -166,17 +168,26 @@ for ((i=0; i<$num_computes; i++)) ; do
     wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} -D ${eth_provision}
 done
 
-### Mount node local disk
-for ((i=0; i<$num_computes; i++)) ; do
-    wwsh object modify -s FILESYSTEMS="mountpoint=/tmp:dev=sda1:type=ext4:size=fill" ${c_name[i]}
-    wwsh object modify -s DISKFORMAT="sda1" ${c_name[i]}
-    wwsh object modify -s DISKPARTITION="sda" ${c_name[i]}
-done
+#### Mount node local disk (only use if boot from PXE)
+#for ((i=0; i<$num_computes; i++)) ; do
+#    wwsh object modify -s FILESYSTEMS="mountpoint=/tmp:dev=sda1:type=ext4:size=fill" ${c_name[i]}
+#    wwsh object modify -s DISKFORMAT="sda1" ${c_name[i]}
+#    wwsh object modify -s DISKPARTITION="sda" ${c_name[i]}
+#done
 
 
 # Define provisioning image for hosts
 wwsh -y provision set "${compute_regex}" --vnfs=rocky8.6 --bootstrap=`uname -r` \
 --files=dynamic_hosts,passwd,group,shadow,network
+
+# Add GRUB2 bootloader and re-assemble VNFS image (for nodes to boot from local disk)
+cp /etc/warewulf/filesystem/examples/efi_example.cmds /etc/warewulf/filesystem/efi.cmds
+wwsh provision set --filesystem=efi "${compute_regex}"
+wwsh provision set --bootloader=sda "${compute_regex}"
+
+# Configure local boot (after successful provisioning)
+#wwsh provision set --bootlocal=normal "${compute_regex}"
+
 
 # Restart dhcp / update PXE
 systemctl restart dhcpd
