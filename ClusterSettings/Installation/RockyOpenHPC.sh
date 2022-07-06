@@ -186,7 +186,7 @@ wwsh provision set --filesystem=efi "${compute_regex}"
 wwsh provision set --bootloader=sda "${compute_regex}"
 
 # Configure local boot (after successful provisioning)
-#wwsh provision set --bootlocal=normal "${compute_regex}"
+wwsh provision set --bootlocal=normal "${compute_regex}"
 
 
 # Restart dhcp / update PXE
