@@ -6,7 +6,7 @@
   2. Turn on the UPSs
   3. Power up the headnode
   4. Power up the NASs
-  5. Logging headnode as root (with usual password)
+  5. Log in headnode as root (with usual password)
   6. Turn on internal network connetion (eno1)
   7. Power up the compute nodes
   8. Mount the NAS
