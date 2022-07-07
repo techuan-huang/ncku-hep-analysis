@@ -154,7 +154,7 @@ echo "drivers += updates/kernel/" >> $WW_CONF
 wwbootstrap `uname -r`
 
 # Add GRUB2 bootloader and re-assemble VNFS image (for nodes to boot from local disk)
-yum -y --installroot=$CHROOT install grub2-efi grub2-efi-modules
+yum -y --installroot=$CHROOT install grub2
 
 #Assemble Virtual Node File System (VNFS) image
 wwvnfs --chroot $CHROOT
@@ -168,25 +168,17 @@ for ((i=0; i<$num_computes; i++)) ; do
     wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} -D ${eth_provision}
 done
 
-#### Mount node local disk (only use if boot from PXE)
-#for ((i=0; i<$num_computes; i++)) ; do
-#    wwsh object modify -s FILESYSTEMS="mountpoint=/tmp:dev=sda1:type=ext4:size=fill" ${c_name[i]}
-#    wwsh object modify -s DISKFORMAT="sda1" ${c_name[i]}
-#    wwsh object modify -s DISKPARTITION="sda" ${c_name[i]}
-#done
-
-
 # Define provisioning image for hosts
 wwsh -y provision set "${compute_regex}" --vnfs=rocky8.6 --bootstrap=`uname -r` \
 --files=dynamic_hosts,passwd,group,shadow,network
 
-# Add GRUB2 bootloader and re-assemble VNFS image (for nodes to boot from local disk)
-cp /etc/warewulf/filesystem/examples/efi_example.cmds /etc/warewulf/filesystem/efi.cmds
-wwsh provision set --filesystem=efi "${compute_regex}"
+# Select (and customize) appropriate parted layout example
+cp /etc/warewulf/filesystem/examples/gpt_example.cmds /etc/warewulf/filesystem/gpt.cmds
+wwsh provision set --filesystem=gpt "${compute_regex}"
 wwsh provision set --bootloader=sda "${compute_regex}"
 
-# Configure local boot (after successful provisioning)
-wwsh provision set --bootlocal=normal "${compute_regex}"
+# Configure local boot (after successful provisioning) (not tested yet)
+#wwsh provision set --bootlocal=normal "${compute_regex}"
 
 
 # Restart dhcp / update PXE
@@ -244,3 +236,11 @@ qmgr -c "set server job_history_enable=True"
 for host in "${c_name[@]}"; do
     qmgr -c "create node $host"
 done
+
+#######################################
+### Resource Manager Startup
+#######################################
+
+#distribute jobs evenly to compute nodes
+vim /var/spool/pbs/sched_priv/sched_config
+node_sort_key: "sort_priority LOW assigned"     ALL

@@ -29,32 +29,24 @@ compute_prefix="compute-0-"
 ### Provisioning
 #######################################
 
-
 # Enable internal interface for provisioning
 ip link set dev ${sms_eth_internal} up
 ip address add ${sms_ip}/${internal_netmask} broadcast + dev ${sms_eth_internal}
 
-#export CHROOT=/opt/ohpc/admin/images/rocky8.6
+# Restart/enable relevant services to support provisioning
+systemctl enable httpd.service
+systemctl restart httpd
+systemctl enable dhcpd.service
+systemctl enable tftp.socket
+systemctl start tftp.socket
 
-# Add NFS client mounts of /home and /opt/ohpc/pub to base image
-#echo "${sms_ip}:/home /home nfs nfsvers=3,nodev,nosuid 0 0" >> $CHROOT/etc/fstab
-#echo "${sms_ip}:/opt/ohpc/pub /opt/ohpc/pub nfs nfsvers=3,nodev 0 0" >> $CHROOT/etc/fstab
-
-#Assemble Virtual Node File System (VNFS) image
-#wwvnfs --chroot $CHROOT
-
-# Set provisioning interface as the default networking device
-#echo "GATEWAYDEV=${eth_provision}" > /tmp/network.$$
-#wwsh -y file import /tmp/network.$$ --name network
-#wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0
-# Add nodes to Warewulf data store
-#for ((i=0; i<$num_computes; i++)) ; do
-#    wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} -D ${eth_provision}
-#done
+export CHROOT=/opt/ohpc/admin/images/rocky8.6
 
 # Define provisioning image for hosts
-wwsh -y provision set "${compute_regex}" --vnfs=rocky8.6 --bootstrap=`uname -r` \
---files=dynamic_hosts,passwd,group,shadow,network
+wwsh -y provision set "${compute_regex}" --vnfs=rocky8.6 --bootstrap=`uname -r` --files=dynamic_hosts,passwd,group,shadow,network
+
+wwsh -y provision set --filesystem=gpt "${compute_regex}"
+wwsh -y provision set --bootloader=sda "${compute_regex}"
 
 # Restart dhcp / update PXE
 systemctl restart dhcpd
