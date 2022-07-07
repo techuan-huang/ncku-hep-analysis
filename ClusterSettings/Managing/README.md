@@ -4,8 +4,8 @@
 - To power up the whole cluster, please follow the steps:
   1. Plug in the UPSs
   2. Turn on the UPSs
-  3. Power up the headnode
-  4. Power up the NASs
+  3. Power on the headnode
+  4. Power on the NASs
   5. Log in headnode as root (with usual password)
   6. Excute "source SetupNodes.sh" in terminal
   7. Power up the compute nodes (~15 min)
