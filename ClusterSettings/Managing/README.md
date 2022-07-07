@@ -7,13 +7,22 @@
   3. Power up the headnode
   4. Power up the NASs
   5. Log in headnode as root (with usual password)
-  6. Turn on internal network connetion (eno1)
-  7. Power up the compute nodes
-  8. Mount the NAS
+  6. Excute "source SetupNodes.sh" in terminal
+  7. Power up the compute nodes (~15 min)
+  8. Mount the NAS (excute "./MountNASNodes.sh")
+  9. Log out from headnode
 
 - To power off the cluster:
-  1. Power off compute nodes
-  2. Power off headnode
-  3. Power off NASs
-  4. Turn off the UPSs
-  5. Unplug the UPSs
+  1. Log in headnode as root (with usual password)
+  2. Power off compute nodes (excute "./PowerOff_all.sh")
+  3. Power off headnode
+  4. Power off NASs
+  5. Turn off the UPSs
+  6. Unplug the UPSs
+
+- If you want to add a new user to cluster, run following commands:
+```sh
+useradd -m <new user>
+wwsh file resync passwd shadow group
+```
+The new user will be synced to compute nodes in 5 minutes.
