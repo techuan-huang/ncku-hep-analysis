@@ -8,7 +8,7 @@
   4. Power on the NASs
   5. Log in headnode as root (with usual password)
   6. Excute "source SetupNodes.sh" in terminal
-  7. Power up the compute nodes (~15 min)
+  7. Power on the compute nodes (~15 min)
   8. Mount the NAS (excute "./MountNASNodes.sh")
   9. Log out from headnode
 
