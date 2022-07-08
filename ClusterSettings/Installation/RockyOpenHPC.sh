@@ -244,3 +244,6 @@ done
 #distribute jobs evenly to compute nodes
 vim /var/spool/pbs/sched_priv/sched_config
 node_sort_key: "sort_priority LOW assigned"     ALL
+
+vim /opt/pbs/etc/pbs_sched_config
+node_sort_key: "sort_priority LOW assigned"     ALL
