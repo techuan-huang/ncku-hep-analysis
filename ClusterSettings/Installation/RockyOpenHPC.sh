@@ -241,9 +241,11 @@ done
 ### Resource Manager Startup
 #######################################
 
-#distribute jobs evenly to compute nodes
+#distribute jobs evenly to compute nodes and start jobs according to job priority
 vim /var/spool/pbs/sched_priv/sched_config
 node_sort_key: "sort_priority LOW assigned"     ALL
+job_sort_key: "job_priority HIGH"       ALL
 
 vim /opt/pbs/etc/pbs_sched_config
 node_sort_key: "sort_priority LOW assigned"     ALL
+job_sort_key: "job_priority HIGH"       ALL
