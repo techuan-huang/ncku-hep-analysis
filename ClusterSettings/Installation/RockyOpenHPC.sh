@@ -251,10 +251,10 @@ vim /var/spool/pbs/sched_priv/sched_config
 
 by_queue: False         all
 
-job_sort_key: "fairshare_perc HIGH"        ALL
-node_sort_key: "ncpus HIGH unused"      ALL
+job_sort_key: "cput LOW"        ALL
 
-smp_cluster_dist: round_robin
+#smp_cluster_dist: round_robin
+smp_cluster_dist: lowest_load
 
 fair_share: true        ALL
 unknown_shares: 10
@@ -267,9 +267,13 @@ fairshare_decay_factor: 0.7
 qmgr -c "unset server job_sort_formula"
 
 # add users to resource_group for fairshare usage
-getent passwd | while IFS=: read -r name password uid gid gecos home shell; do
-    echo "$name 502 root 10" >> /var/spool/pbs/sched_priv/resource_group
+getent passwd | while IFS=: read -r name password uid gid gecos home shell;
+do
+    if [[ $home =~ ^/home/ ]]; then
+        echo "$name 502 root 10" >> /var/spool/pbs/sched_priv/resource_group
+    fi
 done
+
 
 # kill -HUP the scheduler to reload the configurations
 kill -HUP $(pgrep -f pbs_sched)
