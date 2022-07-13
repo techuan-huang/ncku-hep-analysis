@@ -243,9 +243,15 @@ done
 
 #distribute jobs evenly to compute nodes and start jobs according to job priority
 vim /var/spool/pbs/sched_priv/sched_config
-job_sort_key: "fairshare_tree_usage LOW"        ALL
-node_sort_key: "ncpus HIGH"     ALL
+#job_sort_key: "fairshare_tree_usage LOW"     ALL
+job_sort_key: "cput LOW"        ALL
+node_sort_key: "ncpus LOW assigned"     ALL
+fair_share: true        ALL
+unknown_shares: 10
+fairshare_decay_time: 06:00:00
+fairshare_decay_factor: 0.7
 
-vim /opt/pbs/etc/pbs_sched_config
-job_sort_key: "fairshare_tree_usage LOW"        ALL
-node_sort_key: "ncpus HIGH"     ALL
+qmgr -c "set server job_sort_formula = 2^-(fairshare_tree_usage/fairshare_perc)"
+
+
+systemctl restart pbs
