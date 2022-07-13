@@ -243,8 +243,10 @@ done
 
 #distribute jobs evenly to compute nodes and start jobs according to job priority
 
+# temporarily stop the scheduling
 qmgr -c "set sched scheduling = False"
 
+# enable fairshare in $PBS_HOME/sched_config
 vim /var/spool/pbs/sched_priv/sched_config
 
 by_queue: False         all
@@ -264,11 +266,15 @@ fairshare_decay_factor: 0.7
 #qmgr -c "set server job_sort_formula = queue_priority"
 qmgr -c "unset server job_sort_formula"
 
-vim /var/spool/pbs/sched_priv/resource_group
-# add users
+# add users to resource_group for fairshare usage
+getent passwd | while IFS=: read -r name password uid gid gecos home shell; do
+    echo "$name 502 root 10" >> /var/spool/pbs/sched_priv/resource_group
+done
 
+# kill -HUP the scheduler to reload the configurations
 kill -HUP $(pgrep -f pbs_sched)
 
+# restart the scheduling
 qmgr -c "set sched scheduling = True"
 
 
