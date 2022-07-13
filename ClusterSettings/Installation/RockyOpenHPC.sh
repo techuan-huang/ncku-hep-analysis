@@ -242,7 +242,15 @@ done
 #######################################
 
 #distribute jobs evenly to compute nodes and start jobs according to job priority
+
+qmgr -c "set sched scheduling = False"
+
 vim /var/spool/pbs/sched_priv/sched_config
+
+by_queue: False         all
+
+job_sort_key: "fairshare_perc HIGH"        ALL
+node_sort_key: "ncpus HIGH unused"      ALL
 
 smp_cluster_dist: round_robin
 
@@ -253,7 +261,18 @@ fairshare_decay_factor: 0.7
 
 #qmgr -c "set server job_sort_formula = 2^-(fairshare_tree_usage/fairshare_perc)"
 #qmgr -c "set server job_sort_formula = fairshare_factor"
-qmgr -c "set server job_sort_formula = queue_priority"
+#qmgr -c "set server job_sort_formula = queue_priority"
+qmgr -c "unset server job_sort_formula"
+
+vim /var/spool/pbs/sched_priv/resource_group
+# add users
+
+kill -HUP $(pgrep -f pbs_sched)
+
+qmgr -c "set sched scheduling = True"
 
 
+# every time edit the sched_config or resource_group, need to run either:
 systemctl restart pbs
+#or
+kill -HUP $(pgrep -f pbs_sched)
