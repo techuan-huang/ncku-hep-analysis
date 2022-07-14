@@ -258,7 +258,7 @@ smp_cluster_dist: lowest_load
 
 fair_share: true        ALL
 unknown_shares: 10
-fairshare_decay_time: 00:30:00
+fairshare_decay_time: 06:00:00
 
 qmgr -c 'set server job_sort_formula="pow(2, -(fairshare_tree_usage/fairshare_perc))"'
 #qmgr -c "set server job_sort_formula = fairshare_factor"
