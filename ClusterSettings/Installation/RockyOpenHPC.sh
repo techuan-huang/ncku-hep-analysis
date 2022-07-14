@@ -258,22 +258,21 @@ smp_cluster_dist: lowest_load
 
 fair_share: true        ALL
 unknown_shares: 10
-fairshare_decay_time: 06:00:00
-fairshare_decay_factor: 0.7
+fairshare_decay_time: 00:30:00
 
-#qmgr -c "set server job_sort_formula = 2^-(fairshare_tree_usage/fairshare_perc)"
+qmgr -c 'set server job_sort_formula="pow(2, -(fairshare_tree_usage/fairshare_perc))"'
 #qmgr -c "set server job_sort_formula = fairshare_factor"
 #qmgr -c "set server job_sort_formula = queue_priority"
-qmgr -c "unset server job_sort_formula"
+#qmgr -c "unset server job_sort_formula"
 
 # add users to resource_group for fairshare usage
+cp /var/spool/pbs/sched_priv/resource_group.bak /var/spool/pbs/sched_priv/resource_group
 getent passwd | while IFS=: read -r name password uid gid gecos home shell;
 do
     if [[ $home =~ ^/home/ ]]; then
         echo "$name 502 root 10" >> /var/spool/pbs/sched_priv/resource_group
     fi
 done
-
 
 # kill -HUP the scheduler to reload the configurations
 kill -HUP $(pgrep -f pbs_sched)
