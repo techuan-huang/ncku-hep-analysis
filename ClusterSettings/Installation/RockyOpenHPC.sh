@@ -253,8 +253,8 @@ by_queue: False         all
 
 job_sort_key: "cput LOW"        ALL
 
-#smp_cluster_dist: round_robin
-smp_cluster_dist: lowest_load
+#node_sort_key: "sort_priority HIGH"     ALL
+node_sort_key: "ncpus LOW assigned"     ALL
 
 fair_share: true        ALL
 unknown_shares: 10
