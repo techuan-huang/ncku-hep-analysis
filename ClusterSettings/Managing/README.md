@@ -23,6 +23,6 @@
 - If you want to add a new user to cluster, run following commands:
 ```sh
 useradd -m <new user>
-wwsh file resync passwd shadow group
+./ResyncUsers.sh
 ```
 The new user will be synced to compute nodes in 5 minutes.
