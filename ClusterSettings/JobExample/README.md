@@ -43,6 +43,6 @@ qstat -Q
 
 Jobs is ordered using "Fairshare" algorithm. People can check their priority using following command:
 ```sh
-su - -c "pbsfs"
+su - -c pbsfs
 ```
 This requires root permission, so please use it carefully. You can check the column of "Usage". Users have larger usage will have low priority.
