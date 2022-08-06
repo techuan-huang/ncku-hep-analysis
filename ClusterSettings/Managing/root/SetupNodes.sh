@@ -9,7 +9,7 @@ sms_name="dirac"
 sms_ip="192.168.91.1"
 sms_eth_internal="eno1"
 
-eth_provision="eno1"
+eth_provision="eth0"
 internal_netmask="255.255.255.0"
 ntp_server="pool.ntp.org"
 bmc_username=""
