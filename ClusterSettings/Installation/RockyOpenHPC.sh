@@ -165,7 +165,7 @@ wwsh -y file import /tmp/network.$$ --name network
 wwsh -y file set network --path /etc/sysconfig/network --mode=0644 --uid=0
 # Add nodes to Warewulf data store
 for ((i=0; i<$num_computes; i++)) ; do
-    wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} --gateway=${sms_ip} -–netmask=${internal_netmask} -D ${eth_provision}
+    wwsh -y node new ${c_name[i]} --ipaddr=${c_ip[i]} --hwaddr=${c_mac[i]} --gateway=${sms_ip} -–network=${internal_netmask} -–netmask=${internal_netmask} -D ${eth_provision}
 done
 
 # Define provisioning image for hosts
