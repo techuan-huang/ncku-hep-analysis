@@ -2,6 +2,7 @@
 
 echo "Syncing users to compute nodes ..."
 wwsh file resync passwd shadow group
+pdsh -w compute-0-[1-4] /warewulf/bin/wwgetfiles
 echo ""
 echo "Done! New user will be seen by compute nodes in few minutes!"
 
