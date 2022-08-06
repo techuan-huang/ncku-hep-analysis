@@ -41,8 +41,7 @@ export CHROOT=/opt/ohpc/admin/images/rocky8.6
 yum -y --installroot=$CHROOT install <package>
 ```
 
-- Re-build the VNFS image for compute nodes
-- It will take 20-25 minutes
+- Re-build the VNFS image for compute nodes (It may take 20-25 minutes).
 ```sh
 wwvnfs --chroot $CHROOT
 ```
