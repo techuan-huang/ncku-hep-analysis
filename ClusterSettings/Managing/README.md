@@ -12,7 +12,8 @@
   6. Excute "source SetupNodes.sh" in terminal
   7. Power on the compute nodes (~15 min)
   8. Mount the NAS (excute "./MountNASNodes.sh")
-  9. Log out from headnode
+  9. Setup CVMFS for compute nodes (excute "./SetNodeCVMFS.sh")
+  10. Log out from headnode
 
 - To power off the cluster:
   1. Log in headnode as root (with usual password)
