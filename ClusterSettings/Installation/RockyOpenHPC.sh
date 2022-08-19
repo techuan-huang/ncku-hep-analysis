@@ -258,7 +258,9 @@ node_sort_key: "ncpus LOW assigned"     ALL
 
 fair_share: true        ALL
 unknown_shares: 10
+fairshare_usage_res: cput+ncpus*walltime
 fairshare_decay_time: 06:00:00
+
 
 qmgr -c 'set server job_sort_formula="pow(2, -(fairshare_tree_usage/fairshare_perc))"'
 #qmgr -c "set server job_sort_formula = fairshare_factor"
