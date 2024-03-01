@@ -31,6 +31,9 @@ useradd -m <new user>
 ```
 The new user will be synced to compute nodes in 5 minutes.
 
+## Full disk due to OpenPBS log files
+OpenPBS is the package we used to manage batch jobs on our cluster. It records its logs at ```/var/spool/pbs/sched_logs``` everyday. However, we only assigned 70GB to ```/```. Once it is full, you may see compute nodes keep rebooting when you turn them on. You may also experience some command, like ```yum update``` stuck. So, it's better to clean up this space regularly.
+
 ## Installing YUM/DNF packages for compute nodes
 - Path to the Virtual Node File System (VNFS)
 ```sh
