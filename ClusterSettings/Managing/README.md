@@ -75,14 +75,14 @@ export CHROOT=/opt/ohpc/admin/images/rocky8.6
 yum -y --installroot=$CHROOT update
 ```
 
-- Re-build the VNFS image for compute nodes (It may take 20-25 minutes).
-```sh
-wwvnfs --chroot $CHROOT
-```
-
 - If there was an update on kernel, you need to run following command. Otherwise, skip this step:
 ```sh
 wwbootstrap `uname -r`
+```
+
+- Re-build the VNFS image for compute nodes (It may take 20-25 minutes).
+```sh
+wwvnfs --chroot $CHROOT
 ```
 
 - Start the VNFS provisioning
