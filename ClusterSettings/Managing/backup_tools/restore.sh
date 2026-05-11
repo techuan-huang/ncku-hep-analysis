@@ -7,16 +7,16 @@ cp /etc/exports /etc/exports.bk
 cp /etc/auto.home /etc/auto.home.bk
 
 #copy files
-cd /mnt/data01/backup_upgrade/users
+cd /mnt/data04/backup_userdata/users
 cat passwd.mig >> /etc/passwd
 cat group.mig >> /etc/group
 cat shadow.mig >> /etc/shadow
 /bin/cp gshadow.mig /etc/gshadow
 
 #restore the home directories and software
-cd /mnt/data01/backup_upgrade/users_backup
-rsync -avh ./home/ /home
-#rsync -avhP ./root/ /root  #Don't use this line. It will cause problems.
+cd /mnt/data04/backup_userdata/users_backup
+rsync -avzhP ./home/ /home
+#rsync -avzhP ./root/ /root  #Don't use this line. It will cause problems.
 #cp -r CEPC_software fit_example.txt gridengine_bk InstallGcc482_nodes.sh installGCC.sh InstallRootDep.sh log mk_PKworkdir.sh MountNASNodes.sh newsusers.bak PowerOff_all.sh ReinstallAllNodes.sh rh-cve-2016-5195_3.sh .mozilla /root
 tar -zxvf mail.tar.gz /
 
