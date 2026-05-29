@@ -85,9 +85,4 @@ wwbootstrap `uname -r`
 wwvnfs --chroot $CHROOT
 ```
 
-- Start the VNFS provisioning
-```sh
-source SetupNodes.sh
-```
-
-- After this is done, reboot all the compute nodes.
+- After this is done, follow the reboot procedure for headnode and all the compute nodes.
